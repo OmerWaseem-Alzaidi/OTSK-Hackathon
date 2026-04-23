@@ -1,0 +1,8 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+httpx>=0.27
+python-barcode>=0.15
+reportlab>=4.0
+pillow>=10.0
+python-dotenv>=1.0
+requests>=2.31
