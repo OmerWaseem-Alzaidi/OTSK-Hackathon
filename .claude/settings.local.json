@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open *)",
+      "WebFetch(domain:nagya.app)",
+      "WebFetch(domain:api.nagya.app)",
+      "Bash(curl -si https://api.nagya.app/products)",
+      "Bash(curl -si https://api.nagya.app/users)",
+      "Bash(curl -s https://api.nagya.app/products)",
+      "Bash(python3 -m json.tool)",
+      "Bash(node *)",
+      "Bash(node -e ' *)",
+      "Read(//tmp/**)",
+      "WebFetch(domain:21st.dev)",
+      "WebFetch(domain:www.aldi.hu)",
+      "WebFetch(domain:shop.aldi.hu)",
+      "Bash(curl -s \"https://shop.aldi.hu\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\")",
+      "Bash(curl -sL \"https://shop.aldi.hu\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\")",
+      "Bash(curl -sL \"https://www.aldi.hu/hu/ajanlatok/akcio-csutortok.html\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\")",
+      "Bash(curl -sL 'https://www.aldi.hu/hu/receptek/kereso.html?query=keny%C3%A9r' -H 'User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36')",
+      "Bash(curl -sL https://www.aldi.hu/hu/ajanlatok/online-akcio-ujsag.html -H 'User-Agent: Mozilla/5.0')"
+    ]
+  }
+}
