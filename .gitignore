@@ -1,22 +1,31 @@
-# Virtual environments
+# ---------- Python / backend ----------
 .venv/
 venv/
 env/
-
-# Environment secrets
-.env
-
-# Python caches
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Generated coupons / artefacts
+# ---------- Node / frontend ----------
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.d.ts
+vite.config.js
+
+# ---------- Secrets / env ----------
+.env
+.env.local
+
+# ---------- Generated artefacts ----------
 *.pdf
+*.log
 /tmp/
 
-# IDE / OS noise
+# ---------- IDE / OS noise ----------
 .DS_Store
 .idea/
 .vscode/
+.claude/
+CLAUDE.md

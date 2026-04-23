@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Paper — slightly warm, editorial */
+  --color-cream-50: #fbf9f4;
+  --color-cream-100: #f5f1e6;
+  --color-cream-200: #ede6d4;
+  --color-cream-300: #ddd3b8;
+
+  /* ALDI navy */
+  --color-forest-50: #e5e8f1;
+  --color-forest-100: #c6cce0;
+  --color-forest-300: #5f68a0;
+  --color-forest-500: #222b6b;
+  --color-forest-600: #00005f;
+  --color-forest-700: #000047;
+  --color-forest-900: #000031;
+
+  /* ALDI red */
+  --color-paprika-100: #ffe1e1;
+  --color-paprika-300: #ff6d6d;
+  --color-paprika-400: #ef2a2a;
+  --color-paprika-500: #d70000;
+  --color-paprika-600: #a30000;
+  --color-paprika-700: #7a0000;
+
+  /* ALDI yellow */
+  --color-amber-300: #ffdc66;
+  --color-amber-400: #ffd030;
+  --color-amber-500: #ffc800;
+  --color-amber-600: #d1a400;
+
+  /* Orange — discount burst */
+  --color-orange-400: #ff9330;
+  --color-orange-500: #ff7801;
+  --color-orange-600: #cc5f00;
+
+  --color-sky-300: #9edaf6;
+  --color-sky-400: #7acfef;
+  --color-sky-500: #5ac5f0;
+  --color-sky-600: #2aa8dc;
+
+  --color-charcoal: #0b0b1e;
+  --color-ink: #0d0d2a;
+  --color-muted: #6d6a55;
+  --color-line: #ddd3b8;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-line);
+  }
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 450;
+    font-feature-settings: "ss01", "cv11";
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 95, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 95, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: var(--color-amber-500);
+    color: var(--color-forest-600);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    font-variation-settings: "opsz" 96;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    font-variation-settings: "opsz" 96;
+  }
+  .font-display-black {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-variation-settings: "opsz" 96;
+  }
+  .font-display-tight {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    font-variation-settings: "opsz" 96, "wght" 800;
+    line-height: 0.85;
+  }
+  .font-receipt {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum", "zero";
+  }
+  .aldi-stripe {
+    background: linear-gradient(
+      90deg,
+      var(--color-amber-500) 0%,
+      var(--color-amber-500) 25%,
+      var(--color-orange-500) 25%,
+      var(--color-orange-500) 50%,
+      var(--color-paprika-500) 50%,
+      var(--color-paprika-500) 75%,
+      var(--color-forest-600) 75%,
+      var(--color-forest-600) 100%
+    );
+  }
+
+  /* Diagonal barber-pole stripes */
+  .diagonal-warning {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-amber-500) 0 16px,
+      var(--color-forest-600) 16px 32px
+    );
+  }
+  .diagonal-hot {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-paprika-500) 0 14px,
+      var(--color-forest-600) 14px 28px
+    );
+  }
+
+  /* Price-burst: classic supermarket starburst sticker */
+  .price-burst {
+    clip-path: polygon(
+      50% 0%,
+      60% 12%,
+      74% 6%,
+      76% 22%,
+      92% 22%,
+      85% 37%,
+      100% 48%,
+      85% 60%,
+      96% 76%,
+      78% 78%,
+      76% 94%,
+      60% 86%,
+      50% 100%,
+      40% 86%,
+      24% 94%,
+      22% 78%,
+      4% 76%,
+      15% 60%,
+      0% 48%,
+      15% 37%,
+      8% 22%,
+      24% 22%,
+      26% 6%,
+      40% 12%
+    );
+  }
+
+  /* Hard editorial shadow — physical paper-cut feel */
+  .shadow-paper {
+    box-shadow:
+      4px 4px 0 0 var(--color-forest-600),
+      0 0 0 2px var(--color-forest-600);
+  }
+  .shadow-paper-red {
+    box-shadow:
+      4px 4px 0 0 var(--color-paprika-500),
+      0 0 0 2px var(--color-paprika-500);
+  }
+  .shadow-paper-yellow {
+    box-shadow:
+      4px 4px 0 0 var(--color-amber-500),
+      0 0 0 2px var(--color-forest-600);
+  }
+  .shadow-hard {
+    box-shadow: 6px 6px 0 0 var(--color-forest-600);
+  }
+
+  /* Marquee — magicui-style infinite scroll using CSS-var duration */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  .animate-marquee {
+    animation: marquee var(--duration) linear infinite;
+  }
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration) linear infinite;
+  }
+
+  /* Border beam — magicui */
+  @keyframes border-beam {
+    100% {
+      offset-distance: 100%;
+    }
+  }
+  .animate-border-beam {
+    animation: border-beam var(--duration) infinite linear;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.55;
+      transform: scale(1.35);
+    }
+  }
+  .pulse-dot {
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+
+  @keyframes slow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .slow-spin {
+    animation: slow-spin 24s linear infinite;
+  }
+
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  .rule-thick {
+    border-top: 3px solid var(--color-forest-600);
+  }
+  .rule-double {
+    border-top: 1px solid var(--color-forest-600);
+    box-shadow: 0 4px 0 -1px var(--color-forest-600);
+  }
+
+  /* Fade-up initial reveal */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .fade-up {
+    animation: fade-up 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}
