@@ -54,7 +54,10 @@ def _format_price(value: Any) -> str | None:
         amount = float(value)
     except (TypeError, ValueError):
         return None
-    return f"€{amount:,.2f}"
+    # HUF is a whole-number currency; strip decimals when the value is integer-ish.
+    if abs(amount - round(amount)) < 1e-6:
+        return f"{int(round(amount)):,} Ft"
+    return f"{amount:,.2f} Ft"
 
 
 def _pill(days_left: int) -> str:
@@ -78,7 +81,11 @@ def _price_block(price_raw: Any, discount: int) -> str:
 
     try:
         discounted = float(price_raw) * (1 - discount / 100.0)
-        new_label = f"€{discounted:,.2f}"
+        new_label = (
+            f"{int(round(discounted)):,} Ft"
+            if abs(discounted - round(discounted)) < 1e-6
+            else f"{discounted:,.2f} Ft"
+        )
     except (TypeError, ValueError):
         new_label = original
 

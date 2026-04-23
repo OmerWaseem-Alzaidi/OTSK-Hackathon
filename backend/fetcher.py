@@ -23,9 +23,53 @@ from typing import Any
 
 import httpx
 
-PRODUCTS_URL = os.getenv("PRODUCTS_URL", "https://api1.nagya.app/products")
-USERS_URL = os.getenv("USERS_URL", "https://api1.nagya.app/users")
+PRODUCTS_URL = os.getenv("PRODUCTS_URL", "https://api.nagya.app/products")
+USERS_URL = os.getenv("USERS_URL", "https://api.nagya.app/users")
 HTTP_TIMEOUT_SECONDS = float(os.getenv("HTTP_TIMEOUT_SECONDS", "10"))
+
+
+def _normalize_product(raw: dict[str, Any]) -> dict[str, Any]:
+    """Map upstream product fields to the PRD schema used by the ranker."""
+    if not isinstance(raw, dict):
+        return {}
+    price_raw = raw.get("price")
+    if isinstance(price_raw, dict):
+        price = price_raw.get("value")
+    else:
+        price = price_raw
+    stock_raw = raw.get("stock")
+    if isinstance(stock_raw, dict):
+        stock_level = stock_raw.get("current")
+    else:
+        stock_level = raw.get("stock_level")
+    return {
+        **raw,
+        "sku": raw.get("sku"),
+        "name": raw.get("name") or raw.get("title"),
+        "category": raw.get("category"),
+        "expiry_date": raw.get("expiry_date") or raw.get("expiration_date"),
+        "price": price,
+        "stock_level": stock_level,
+    }
+
+
+def _normalize_user(raw: dict[str, Any]) -> dict[str, Any]:
+    """Map upstream user fields to the PRD schema used by the ranker."""
+    if not isinstance(raw, dict):
+        return {}
+    diets = raw.get("dietary_preferences")
+    if not diets:
+        fav = raw.get("favorite_category")
+        diets = [fav] if fav else []
+    return {
+        **raw,
+        "id": raw.get("id"),
+        "name": raw.get("name"),
+        "email": raw.get("email"),
+        "dietary_preferences": diets,
+        "purchase_history": raw.get("purchase_history") or [],
+        "past_coupons": raw.get("past_coupons") or [],
+    }
 
 
 class UpstreamUnavailableError(RuntimeError):
@@ -73,12 +117,14 @@ async def _get_json(client: httpx.AsyncClient, url: str, label: str) -> list[dic
 
 async def fetch_products() -> list[dict[str, Any]]:
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT_SECONDS) as client:
-        return await _get_json(client, PRODUCTS_URL, "products")
+        raw = await _get_json(client, PRODUCTS_URL, "products")
+    return [_normalize_product(p) for p in raw]
 
 
 async def fetch_users() -> list[dict[str, Any]]:
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT_SECONDS) as client:
-        return await _get_json(client, USERS_URL, "users")
+        raw = await _get_json(client, USERS_URL, "users")
+    return [_normalize_user(u) for u in raw]
 
 
 async def fetch_all() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -86,5 +132,8 @@ async def fetch_all() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     async with httpx.AsyncClient(timeout=HTTP_TIMEOUT_SECONDS) as client:
         products_task = _get_json(client, PRODUCTS_URL, "products")
         users_task = _get_json(client, USERS_URL, "users")
-        products, users = await asyncio.gather(products_task, users_task)
-    return products, users
+        raw_products, raw_users = await asyncio.gather(products_task, users_task)
+    return (
+        [_normalize_product(p) for p in raw_products],
+        [_normalize_user(u) for u in raw_users],
+    )
